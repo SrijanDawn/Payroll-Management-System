@@ -1,3 +1,7 @@
+// to START the server FOREVER: pm2 start server.js
+// to STOP the server FOREVER: pm2 stop server.js
+// Visit http://localhost:5000/api/users to see MongoDB.
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -11,7 +15,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/mydatabase');
+require('dotenv').config();
+const MONGODB_URI = process.env.MONGODB_URI;
+console.log(MONGODB_URI);
+mongoose.connect(MONGODB_URI);
 
 // Define a schema and model
 const UserSchema = new mongoose.Schema({

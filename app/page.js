@@ -1,3 +1,6 @@
+// to start the Next.js app: npm run dev
+// visit http://localhost:3000 to see the website.
+
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "./components/Navbar";
@@ -48,5 +51,4 @@ export default function Home() {
 				</div>
 			</div>
 		</div>
-	);
-}
+	)}
