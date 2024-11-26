@@ -1,14 +1,17 @@
-// to START the server FOREVER: pm2 start server.js
-// to STOP the server FOREVER: pm2 stop server.js
+// to START the server FOREVER: pm2 start server
+// to STOP the server FOREVER: pm2 stop server
 // Visit http://localhost:5000/api/users to see MongoDB.
 
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const os = require('os');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+// Define the IP address and port
+const PORT = 5000;
+// const HOST = '192.168.204.122';
 
 // Middleware
 app.use(cors());
@@ -172,6 +175,40 @@ app.get('/api/users/:id/financial-details', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Start the server and bind it to the specific IP address and port
+// Function to get the current IPv4 address
+function getIPv4Address() {
+    const networkInterfaces = os.networkInterfaces();
+    for (const interfaceName in networkInterfaces) {
+        const interfaceDetails = networkInterfaces[interfaceName];
+        for (const details of interfaceDetails) {
+            if (details.family === 'IPv4' && !details.internal) {
+                return details.address;
+            }
+        }
+    }
+    return '127.0.0.1'; // Fallback to localhost if no IPv4 address is found
+}
+
+// Function to restart the server on the current IPv4 address
+function startServer() {
+    const HOST = getIPv4Address();
+
+    // Stop any existing server instance (if needed)
+    if (global.serverInstance) {
+        global.serverInstance.close(() => {
+            console.log('Previous server instance stopped.');
+        });
+    }
+
+    // Start a new server instance
+    global.serverInstance = app.listen(PORT, HOST, () => {
+        console.log(`Server is running on http://${HOST}:${PORT}`);
+    });
+}
+
+startServer();  // Start the server for the first time
+// Monitor IPv4 changes and restart the server
+setInterval(() => {
+    startServer();
+}, 10000); // Check for changes every 10 seconds
