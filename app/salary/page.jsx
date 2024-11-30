@@ -18,7 +18,7 @@ const AllEmployeesFinancialDetails = () => {
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/users');
+                const response = await fetch('http://192.168.204.122:5000/api/users');
                 const data = await response.json();
                 setEmployees(data);
             } catch (error) {
@@ -56,7 +56,7 @@ const AllEmployeesFinancialDetails = () => {
         const netAmount = editFormData.monthlySalary - editFormData.taxDeductions + editFormData.bonus - (salaryPerDay * editFormData.numberOfLeaves);
 
         try {
-            const response = await fetch(`http://localhost:5000/api/users/${employee._id}/financial-details`, {
+            const response = await fetch(`http://192.168.204.122:5000/api/users/${employee._id}/financial-details`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

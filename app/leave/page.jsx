@@ -10,7 +10,7 @@ const UsersList = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/users');
+                const response = await fetch('http://192.168.204.122:5000/api/users');
                 const data = await response.json();
                 setUsers(data);
             } catch (error) {
@@ -24,7 +24,7 @@ const UsersList = () => {
     const incrementLeaves = async (userId) => {
         alert("Leave is Added")
         try {
-            const response = await fetch(`http://localhost:5000/api/users/${userId}/leaves`, {
+            const response = await fetch(`http://192.168.204.122:5000/api/users/${userId}/leaves`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ const UsersList = () => {
     // Handle resetting leaves
     const handleResetLeaves = async (userId) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/users/${userId}/reset-leaves`, {
+            const response = await fetch(`http://192.168.204.122:5000/api/users/${userId}/reset-leaves`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
